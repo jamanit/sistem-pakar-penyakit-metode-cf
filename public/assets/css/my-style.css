@@ -1,0 +1,43 @@
+.modal-header {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 999;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.modal-dialog {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    position: sticky;
+    bottom: 0;
+    background-color: #fff;
+    z-index: 999;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.select2-container .select2-selection--single {
+    height: 38px;
+    /* Sesuaikan tinggi sesuai kebutuhan */
+    display: flex;
+    align-items: center;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: normal;
+    /* Atur line-height ke normal */
+    padding-left: 0.75em;
+    /* Tambahkan padding kiri jika diperlukan */
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 100%;
+    /* Sesuaikan tinggi panah agar align center */
+    display: flex;
+    align-items: center;
+}
