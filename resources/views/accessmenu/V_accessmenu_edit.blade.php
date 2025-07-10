@@ -46,10 +46,7 @@
                                             @php
                                                 $checked = '';
                                                 // Check apakah data menu ini sudah ada di tabel accessmenu
-                                                $accessmenu = App\Models\M_accessmenu::where('id_firstmenu', $menu->id_firstmenu)
-                                                    ->where('id_secondmenu', $menu->id_secondmenu)
-                                                    ->where('id_level', $level->id_level)
-                                                    ->first();
+                                                $accessmenu = App\Models\M_accessmenu::where('id_firstmenu', $menu->id_firstmenu)->where('id_secondmenu', $menu->id_secondmenu)->where('id_level', $level->id_level)->first();
                                                 // Jika data sudah ada, set $checked menjadi 'checked'
                                                 if ($accessmenu) {
                                                     $checked = 'checked';

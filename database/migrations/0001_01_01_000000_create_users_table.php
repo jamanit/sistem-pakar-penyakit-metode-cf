@@ -18,6 +18,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
 
+            $table->string('no_hp')->nullable();
+            $table->enum('status', ['Aktif', 'Tidak Aktif'])->default('Aktif');
             $table->unsignedBigInteger('id_level')->nullable();
             $table->foreign('id_level')->references('id_level')->on('tb_levels')->onDelete('set null');
 

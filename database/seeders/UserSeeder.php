@@ -15,12 +15,16 @@ class UserSeeder extends Seeder
                 'name'     => 'Admin',
                 'email'    => 'admin@email.com',
                 'password' => Hash::make('password'),
+                'no_hp'    => '081234567890',
+                'status'   => 'Aktif',
                 'id_level' => 1,
             ],
             [
                 'name'     => 'Dokter',
                 'email'    => 'dokter@email.com',
                 'password' => Hash::make('password'),
+                'no_hp'    => '081298765432',
+                'status'   => 'Aktif',
                 'id_level' => 2,
             ],
         ]);
