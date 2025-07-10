@@ -14,13 +14,7 @@ class M_diagnosa_detail extends Model
 
     protected $primaryKey = 'id_diagnosa_detail';
 
-    protected $fillable = [
-        'id_diagnosa',
-        'id_gejala',
-        'cf_user',
-        'cf_expert',
-        'cf_he',
-    ];
+    protected $guarded = [];
 
     public $timestamps = true;
 

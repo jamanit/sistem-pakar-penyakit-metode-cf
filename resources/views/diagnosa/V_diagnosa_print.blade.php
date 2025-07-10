@@ -104,6 +104,8 @@
                             <p class="mb-0">Berdasarkan dari gejala yang dipilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit maka perhitungan Algoritma Certainty Factor mengambil nilai CF yang paling tinggi yakni
                                 <b>{{ bcdiv($diagnosa->cf_result, 1, 2) }}</b> yaitu didiagnosa penyakit <b>{{ $diagnosa->penyakit->nama_penyakit }}</b>.
                             </p>
+                            <p class="mb-0">Keterangan: {{ $diagnosa->penyakit->keterangan ?? '-' }}</p>
+                            <p class="mb-0">Solusi: {{ $diagnosa->penyakit->solusi ?? '-' }}</p>
                         @else
                             <p class="mb-0">Hasil diagnosa belum dapat dipastikan.</p>
                         @endif

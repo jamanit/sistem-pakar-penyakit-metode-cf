@@ -43,6 +43,7 @@
                                     <th>No</th>
                                     <th>Nama Penyakit</th>
                                     <th>Keterangan</th>
+                                    <th>Solusi</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -55,7 +56,10 @@
                                             {{ $penyakit->nama_penyakit }}
                                         </td>
                                         <td class="text-nowrap align-top">
-                                            {{ $penyakit->keterangan }}
+                                            {{ \Illuminate\Support\Str::limit($penyakit->keterangan, 50) }}
+                                        </td>
+                                        <td class="text-nowrap align-top">
+                                            {{ \Illuminate\Support\Str::limit($penyakit->solusi, 50) }}
                                         </td>
                                         <td class="align-top btn-group">
                                             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal{{ $penyakit->id_penyakit }}"><i class="fas fa-edit"></i></button>

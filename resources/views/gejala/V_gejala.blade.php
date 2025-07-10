@@ -42,6 +42,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Gejala</th>
+                                    <th>Keterangan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -52,6 +53,9 @@
                                         <td class="align-top" style="width: 1%">{{ $i++ }}</td>
                                         <td class="text-nowrap align-top">
                                             {{ $gejala->nama_gejala }}
+                                        </td>
+                                        <td class="text-nowrap align-top">
+                                            {{ \Illuminate\Support\Str::limit($gejala->keterangan, 50) }}
                                         </td>
                                         <td class="align-top btn-group">
                                             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal{{ $gejala->id_gejala }}"><i class="fas fa-edit"></i></button>

@@ -13,13 +13,7 @@ class M_pasien extends Model
 
     protected $primaryKey = 'id_pasien';
 
-    protected $fillable = [
-        'nama_pasien',
-        'no_nik',
-        'tanggal_lahir',
-        'tempat_lahir',
-        'alamat',
-    ];
+    protected $guarded = [];
 
     public $timestamps = true;
 

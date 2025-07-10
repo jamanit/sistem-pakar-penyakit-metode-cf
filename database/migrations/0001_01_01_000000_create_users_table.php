@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            $table->unsignedBigInteger('id_level')->nullable();
+            $table->foreign('id_level')->references('id_level')->on('tb_levels')->onDelete('set null');
+
             $table->rememberToken();
             $table->timestamps();
         });

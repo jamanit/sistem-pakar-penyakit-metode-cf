@@ -13,16 +13,7 @@ class M_level extends Model
 
     protected $primaryKey = 'id_level';
 
-    protected $fillable = [
-        'created_by',
-        'updated_by',
-        'activity_log',
-        'level_name',
-        'create',
-        'read',
-        'update',
-        'delete',
-    ];
+    protected $guarded = [];
 
     public $timestamps = true;
 

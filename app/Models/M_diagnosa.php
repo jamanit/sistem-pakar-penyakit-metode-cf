@@ -14,16 +14,7 @@ class M_diagnosa extends Model
 
     protected $primaryKey = 'id_diagnosa';
 
-    protected $fillable = [
-        'kode_diagnosa',
-        'id_pasien',
-        'nama_pasien',
-        'alamat',
-        'cf_result',
-        'id_penyakit',
-        'keterangan',
-        'status',
-    ];
+    protected $guarded = [];
 
     public $timestamps = true;
 

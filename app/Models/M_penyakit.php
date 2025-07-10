@@ -13,10 +13,7 @@ class M_penyakit extends Model
 
     protected $primaryKey = 'id_penyakit';
 
-    protected $fillable = [
-        'nama_penyakit',
-        'keterangan',
-    ];
+    protected $guarded = [];
 
     public $timestamps = true;
 

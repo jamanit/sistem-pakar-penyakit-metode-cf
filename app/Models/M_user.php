@@ -13,19 +13,7 @@ class M_user extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = [
-        'created_by',
-        'updated_by',
-        'activity_log',
-        'name',
-        'email',
-        'email_verified_at',
-        'password',
-        'remember_token',
-        'id_level',
-        'no_hp',
-        'status',
-    ];
+    protected $guarded = [];
 
     public $timestamps = true;
 

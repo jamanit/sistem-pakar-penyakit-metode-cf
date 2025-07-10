@@ -18,6 +18,13 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+                    <div class="form-group">
+                        <label for="keterangan">Keterangan</label>
+                        <textarea name="keterangan" id="keterangan" class="form-control keterangan @error('keterangan') is-invalid @enderror" placeholder="Keterangan"cols="30" rows="5">{{ old('keterangan') }}</textarea>
+                        @error('keterangan')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>

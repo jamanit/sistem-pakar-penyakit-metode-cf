@@ -42,12 +42,14 @@ class C_gejala extends Controller
     {
         $request->validate([
             'nama_gejala' => 'required|string|max:255',
+            'keterangan'  => 'nullable|string',
         ], [
             Session::flash('error', 'Data gagal ditambah.')
         ]);
 
         $gejala              = new M_gejala();
         $gejala->nama_gejala = $request->nama_gejala;
+        $gejala->keterangan  = $request->keterangan;
         $gejala->save();
 
         return redirect()->route('gejala_index')->with('success', 'Data berhasil ditambah.');
@@ -67,6 +69,7 @@ class C_gejala extends Controller
     {
         $request->validate([
             'nama_gejala' => 'required|string|max:255',
+            'keterangan'  => 'nullable|string',
         ], [
             Session::flash('error', 'Data gagal diperbarui.')
         ]);
@@ -74,6 +77,7 @@ class C_gejala extends Controller
         $gejala = M_gejala::findOrFail($id);
 
         $gejala->nama_gejala = $request->nama_gejala;
+        $gejala->keterangan  = $request->keterangan;
         $gejala->save();
 
         return redirect()->route('gejala_index')->with('success', 'Data berhasil diperbarui.');

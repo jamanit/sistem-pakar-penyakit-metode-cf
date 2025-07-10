@@ -13,11 +13,7 @@ class M_aturan_diagnosa extends Model
 
     protected $primaryKey = 'id_aturan_diagnosa';
 
-    protected $fillable = [
-        'id_gejala',
-        'id_penyakit',
-        'cf_expert',
-    ];
+    protected $guarded = [];
 
     public $timestamps = true;
 

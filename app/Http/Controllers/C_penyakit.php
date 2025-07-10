@@ -42,6 +42,8 @@ class C_penyakit extends Controller
     {
         $request->validate([
             'nama_penyakit' => 'required|string|max:255',
+            'keterangan'    => 'nullable|string',
+            'solusi'        => 'nullable|string',
         ], [
             Session::flash('error', 'Data gagal ditambah.')
         ]);
@@ -49,6 +51,7 @@ class C_penyakit extends Controller
         $penyakit                = new M_penyakit();
         $penyakit->nama_penyakit = $request->nama_penyakit;
         $penyakit->keterangan    = $request->keterangan;
+        $penyakit->solusi        = $request->solusi;
         $penyakit->save();
 
         return redirect()->route('penyakit_index')->with('success', 'Data berhasil ditambah.');
@@ -68,6 +71,8 @@ class C_penyakit extends Controller
     {
         $request->validate([
             'nama_penyakit' => 'required|string|max:255',
+            'keterangan'    => 'nullable|string',
+            'solusi'        => 'nullable|string',
         ], [
             Session::flash('error', 'Data gagal diperbarui.')
         ]);
@@ -76,6 +81,7 @@ class C_penyakit extends Controller
 
         $penyakit->nama_penyakit = $request->nama_penyakit;
         $penyakit->keterangan    = $request->keterangan;
+        $penyakit->solusi        = $request->solusi;
         $penyakit->save();
 
         return redirect()->route('penyakit_index')->with('success', 'Data berhasil diperbarui.');

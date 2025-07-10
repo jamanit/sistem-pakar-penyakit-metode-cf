@@ -13,9 +13,7 @@ class M_gejala extends Model
 
     protected $primaryKey = 'id_gejala';
 
-    protected $fillable = [
-        'nama_gejala',
-    ];
+    protected $guarded = [];
 
     public $timestamps = true;
 
