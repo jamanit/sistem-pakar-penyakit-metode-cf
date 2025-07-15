@@ -186,7 +186,11 @@ class FrontController extends Controller
         // Mengambil keterangan penyakit berdasarkan ID penyakit yang ditemukan
         if ($aturan->id_penyakit) {
             $penyakit            = M_penyakit::find($aturan->id_penyakit);
-            $keterangan_penyakit = $penyakit->keterangan ?? null;
+
+            $nama_penyakit       = $penyakit->nama_penyakit ?? '-';
+            $keterangan          = $penyakit->keterangan ?? '-';
+            $solusi              = $penyakit->solusi ?? '-';
+            $keterangan_penyakit = "Nama Penyakit: $nama_penyakit\nKeterangan: $keterangan\nSolusi: $solusi";
         }
 
         // Menghitung CF total dan update diagnosa

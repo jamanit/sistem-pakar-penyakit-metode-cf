@@ -15,44 +15,48 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="">Kode Diagnosa</label>
-                                <input type="text" name="" id="" value="{{ $diagnosa->kode_diagnosa }}" class="form-control" readonly>
+                                <p class="form-control-plaintext">{{ $diagnosa->kode_diagnosa }}</p>
                             </div>
                             <div class="form-group">
                                 <label for="">Tanggal Diagnosa</label>
-                                <input type="text" name="" id="" value="{{ $diagnosa->created_at }}" class="form-control" readonly>
+                                <p class="form-control-plaintext">{{ $diagnosa->created_at }}</p>
                             </div>
+
                             @if (!empty($diagnosa->id_pasien))
                                 <div class="form-group">
                                     <label for="">Nama Pasien</label>
-                                    <input type="text" name="" id="" value="{{ $diagnosa->pasien->nama_pasien }}" class="form-control" readonly>
+                                    <p class="form-control-plaintext">{{ $diagnosa->pasien->nama_pasien }}</p>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Alamat</label>
-                                    <input type="text" name="" id="" value="{{ $diagnosa->pasien->alamat }}" class="form-control" readonly>
+                                    <p class="form-control-plaintext">{{ $diagnosa->pasien->alamat }}</p>
                                 </div>
                             @else
                                 <div class="form-group">
                                     <label for="">Nama Pasien</label>
-                                    <input type="text" name="" id="" value="{{ $diagnosa->nama_pasien }}" class="form-control" readonly>
+                                    <p class="form-control-plaintext">{{ $diagnosa->nama_pasien }}</p>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Alamat</label>
-                                    <input type="text" name="" id="" value="{{ $diagnosa->alamat }}" class="form-control" readonly>
+                                    <p class="form-control-plaintext">{{ $diagnosa->alamat }}</p>
                                 </div>
                             @endif
+
                             <div class="form-group">
                                 <label for="">Dibuat Oleh</label>
-                                <input type="text" name="" id="" value="{{ $diagnosa->user->name }}" class="form-control" readonly>
+                                <p class="form-control-plaintext">{{ $diagnosa->user->name }}</p>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="">Keterangan</label>
-                                <textarea name="" id="" class="form-control" placeholder="Keterangan" cols="30" rows="5" readonly>{{ $diagnosa->keterangan }}</textarea>
+                                <div class="border rounded p-2" style="min-height: 100px;">
+                                    {{ $diagnosa->keterangan }}
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="">Status</label>
-                                <input type="text" name="" id="" value="{{ $diagnosa->status }}" class="form-control" placeholder="Status" readonly>
+                                <p class="form-control-plaintext">{{ $diagnosa->status }}</p>
                             </div>
                         </div>
                     </div>

@@ -15,25 +15,27 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="">Kode Diagnosa</label>
-                                <input type="text" name="" id="" value="{{ $diagnosa->kode_diagnosa }}" class="form-control" readonly>
+                                <p class="form-control-plaintext">{{ $diagnosa->kode_diagnosa }}</p>
                             </div>
                             <div class="form-group">
                                 <label for="">Tanggal Diagnosa</label>
-                                <input type="text" name="" id="" value="{{ $diagnosa->created_at }}" class="form-control" readonly>
+                                <p class="form-control-plaintext">{{ $diagnosa->created_at }}</p>
                             </div>
                             <div class="form-group">
                                 <label for="">Nama</label>
-                                <input type="text" name="" id="" value="{{ $diagnosa->nama_pasien }}" class="form-control" readonly>
+                                <p class="form-control-plaintext">{{ $diagnosa->nama_pasien }}</p>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="">Alamat</label>
-                                <input type="text" name="" id="" value="{{ $diagnosa->alamat }}" class="form-control" readonly>
+                                <p class="form-control-plaintext">{{ $diagnosa->alamat }}</p>
                             </div>
                             <div class="form-group">
                                 <label for="">Keterangan</label>
-                                <textarea name="" id="" class="form-control" cols="30" rows="3" readonly>{{ $diagnosa->keterangan }}</textarea>
+                                <div class="border rounded p-2" style="min-height: 100px;">
+                                    {{ $diagnosa->keterangan }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -85,6 +87,8 @@
                             <p class="mb-0">Berdasarkan dari gejala yang dipilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit maka perhitungan Algoritma Certainty Factor mengambil nilai CF yang paling tinggi yakni
                                 <b>{{ bcdiv($diagnosa->cf_result, 1, 2) }}</b> yaitu didiagnosa penyakit <b>{{ $diagnosa->penyakit->nama_penyakit }}</b>.
                             </p>
+                            <p class="mb-0">Keterangan: {{ $diagnosa->penyakit->keterangan ?? '-' }}</p>
+                            <p class="mb-0">Solusi: {{ $diagnosa->penyakit->solusi ?? '-' }}</p>
                         @else
                             <p class="mb-0">Hasil diagnosa belum dapat dipastikan.</p>
                         @endif

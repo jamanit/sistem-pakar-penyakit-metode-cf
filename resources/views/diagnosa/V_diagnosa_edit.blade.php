@@ -109,7 +109,7 @@
                                 @endforeach
                             </div>
 
-                            <button type="submit" class="btn btn-primary mt-3"><i class="fas fa-plus"></i> Tambah Diagnosa</button>
+                            <button type="submit" class="btn btn-primary mt-3"><i class="fas fa-plus"></i> Tambah Gejala</button>
                         </form>
 
                         <br>
