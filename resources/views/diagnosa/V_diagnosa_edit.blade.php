@@ -58,10 +58,13 @@
                                             <input type="text" name="" id="" value="{{ $diagnosa->alamat }}" class="form-control" readonly>
                                         </div>
                                     @endif
-                                    <div class="form-group">
-                                        <label for="">Dibuat Oleh</label>
-                                        <input type="text" name="" id="" value="{{ $diagnosa->user->name }}" class="form-control" readonly>
-                                    </div>
+
+                                    @if ($diagnosa->user)
+                                        <div class="form-group">
+                                            <label for="">Dibuat Oleh</label>
+                                            <input type="text" name="" id="" value="{{ $diagnosa->user->name ?? 'Pasien' }}" class="form-control" readonly>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">

@@ -80,7 +80,7 @@
                                             {{ $diagnosa->status }}
                                         </td>
                                         <td class="text-nowrap align-top">
-                                            {{ $diagnosa->user->name }}
+                                            {{ $diagnosa->user->name ?? 'Pasien' }}
                                         </td>
                                         <td class="align-top btn-group">
                                             <a href="{{ route('diagnosa_edit', $diagnosa->id_diagnosa) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>

@@ -42,10 +42,12 @@
                                 </div>
                             @endif
 
-                            <div class="form-group">
-                                <label for="">Dibuat Oleh</label>
-                                <p class="form-control-plaintext">{{ $diagnosa->user->name }}</p>
-                            </div>
+                            @if ($diagnosa->user)
+                                <div class="form-group">
+                                    <label for="">Dibuat Oleh</label>
+                                    <p class="form-control-plaintext">{{ $diagnosa->user->name ?? 'Pasien' }}</p>
+                                </div>
+                            @endif
                         </div>
                         <div class="col-6">
                             <div class="form-group">
