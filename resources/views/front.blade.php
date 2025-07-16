@@ -179,7 +179,10 @@
                                         </tfoot>
                                     </table>
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-3"><i class="bi bi-heart-pulse-fill"></i> Mulai Diagnosa</button>
+
+                                @if ($diagnosa_details->isNotEmpty())
+                                    <button type="submit" class="btn btn-primary mt-3"><i class="bi bi-heart-pulse-fill"></i> Mulai Diagnosa</button>
+                                @endif
                             </form>
 
                             <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
