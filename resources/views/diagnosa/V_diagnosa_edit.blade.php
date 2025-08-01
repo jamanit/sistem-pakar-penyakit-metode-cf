@@ -39,41 +39,22 @@
                                         <label for="">Tanggal Diagnosa</label>
                                         <input type="text" name="" id="" value="{{ $diagnosa->created_at }}" class="form-control" readonly>
                                     </div>
-                                    @if (!empty($diagnosa->id_pasien))
-                                        <div class="form-group">
-                                            <label for="">Nama Pasien</label>
-                                            <input type="text" name="" id="" value="{{ $diagnosa->pasien->nama_pasien }}" class="form-control" readonly>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="">Alamat</label>
-                                            <input type="text" name="" id="" value="{{ $diagnosa->pasien->alamat }}" class="form-control" readonly>
-                                        </div>
-                                    @else
-                                        <div class="form-group">
-                                            <label for="">Nama Pasien</label>
-                                            <input type="text" name="" id="" value="{{ $diagnosa->nama_pasien }}" class="form-control" readonly>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="">Alamat</label>
-                                            <input type="text" name="" id="" value="{{ $diagnosa->alamat }}" class="form-control" readonly>
-                                        </div>
-                                    @endif
-
+                                    <div class="form-group">
+                                        <label for="">Nama Pasien</label>
+                                        <input type="text" name="" id="" value="{{ !empty($diagnosa->id_pasien) ? $diagnosa->pasien->nama_pasien : $diagnosa->nama_pasien }}" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Alamat</label>
+                                        <input type="text" name="" id="" value="{{ !empty($diagnosa->id_pasien) ? $diagnosa->pasien->alamat : $diagnosa->alamat }}" class="form-control" readonly>
+                                    </div>
                                     @if ($diagnosa->user)
                                         <div class="form-group">
                                             <label for="">Dibuat Oleh</label>
                                             <input type="text" name="" id="" value="{{ $diagnosa->user->name ?? 'Pasien' }}" class="form-control" readonly>
                                         </div>
                                     @endif
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="keterangan">Keterangan</label>
-                                        <textarea name="keterangan" id="keterangan" class="form-control keterangan @error('keterangan') is-invalid @enderror"cols="30" rows="5">{{ $diagnosa->keterangan }}</textarea>
-                                        @error('keterangan')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
                                     <div class="form-group">
                                         <label for="status">Status</label>
                                         <select name="status" id="status" class="form-control select2 status @error('status') is-invalid @enderror">
@@ -190,11 +171,11 @@
                         <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
                             <b>Kesimpulan</b>
                             @if ($diagnosa->penyakit)
-                                <p class="mb-0">Berdasarkan dari gejala yang dipilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit maka perhitungan Algoritma Certainty Factor mengambil nilai CF yang paling tinggi yakni
-                                    <b>{{ bcdiv($diagnosa->cf_result, 1, 2) }}</b> yaitu didiagnosa penyakit <b>{{ $diagnosa->penyakit->nama_penyakit ?? '-' }}</b>.
+                                <p class="mb-4">Berdasarkan dari gejala yang dipilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit maka perhitungan Algoritma Certainty Factor mengambil nilai CF yang paling tinggi yakni
+                                    <b>{{ bcdiv($diagnosa->cf_result, 1, 2) }}</b> yaitu didiagnosa penyakit <b>{{ $diagnosa->penyakit->nama_penyakit }}</b>.
                                 </p>
-                                <p class="mb-0">Keterangan: {{ $diagnosa->penyakit->keterangan ?? '-' }}</p>
-                                <p class="mb-0">Solusi: {{ $diagnosa->penyakit->solusi ?? '-' }}</p>
+                                <p class="mb-4"><strong>Keterangan:</strong> {!! nl2br(e($diagnosa->penyakit->keterangan)) ?? '-' !!}</p>
+                                <p class="mb-0"><strong>Solusi:</strong> {!! nl2br(e($diagnosa->penyakit->solusi)) ?? '-' !!}</p>
                             @else
                                 <p class="mb-0">Hasil diagnosa belum dapat dipastikan.</p>
                             @endif

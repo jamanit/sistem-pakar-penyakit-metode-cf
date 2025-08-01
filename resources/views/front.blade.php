@@ -72,19 +72,15 @@
                                 <label for="">Tanggal Diagnosa</label>
                                 <input type="text" name="" id="" value="{{ $diagnosa->created_at }}" class="form-control" readonly>
                             </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">Nama</label>
                                 <input type="text" name="" id="" value="{{ $diagnosa->nama_pasien }}" class="form-control" readonly>
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">Alamat</label>
                                 <textarea name="" id="" class="form-control" cols="30" rows="3" readonly>{{ $diagnosa->alamat }}</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Keterangan</label>
-                                <textarea name="" id="" class="form-control" cols="30" rows="3" readonly>{{ $diagnosa->keterangan }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -133,9 +129,7 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Nama Gejala</th>
-                                                <th>CF User</th>
-                                                <th>CF Expert</th>
-                                                <th>CF (H, E)</th>
+                                                <th>Tingkat Keyakinan</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -162,19 +156,12 @@
                                                             <div class="text-danger">{{ $message }}</div>
                                                         @enderror
                                                     </td>
-                                                    <td class="text-nowrap align-top">
-                                                        {{ $diagnosa_detail->cf_expert }}
-                                                    </td>
-                                                    <td class="text-nowrap align-top">
-                                                        {{ $diagnosa_detail->cf_he }}
-                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th colspan="2">Nilai CF: {{ bcdiv($diagnosa->cf_result, 1, 2) }}</th>
-                                                <th colspan="3">Nama Penyakit: {{ $diagnosa->penyakit->nama_penyakit ?? '' }}</th>
+                                                <th colspan="5">Nama Penyakit: {{ $diagnosa->penyakit->nama_penyakit ?? '' }}</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -188,11 +175,9 @@
                             <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
                                 <b>Kesimpulan</b>
                                 @if ($diagnosa->penyakit)
-                                    <p class="mb-0">Berdasarkan dari gejala yang dipilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit maka perhitungan Algoritma Certainty Factor mengambil nilai CF yang paling tinggi yakni
-                                        <b>{{ bcdiv($diagnosa->cf_result, 1, 2) }}</b> yaitu didiagnosa penyakit <b>{{ $diagnosa->penyakit->nama_penyakit ?? '-' }}</b>.
-                                    </p>
-                                    <p class="mb-0">Keterangan: {{ $diagnosa->penyakit->keterangan ?? '-' }}</p>
-                                    <p class="mb-0">Solusi: {{ $diagnosa->penyakit->solusi ?? '-' }}</p>
+                                    <p class="mb-4">Berdasarkan dari gejala yang dipilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit dengan perhitungan Algoritma Certainty Factor yaitu didiagnosa penyakit <b>{{ $diagnosa->penyakit->nama_penyakit ?? '-' }}</b>.</p>
+                                    <p class="mb-4"><strong>Keterangan:</strong> {!! nl2br(e($diagnosa->penyakit->keterangan)) ?? '-' !!}</p>
+                                    <p class="mb-0"><strong>Solusi:</strong> {!! nl2br(e($diagnosa->penyakit->solusi)) ?? '-' !!}</p>
                                 @else
                                     <p class="mb-0">Hasil diagnosa belum dapat dipastikan.</p>
                                 @endif

@@ -21,41 +21,23 @@
                                 <label for="">Tanggal Diagnosa</label>
                                 <p class="form-control-plaintext">{{ $diagnosa->created_at }}</p>
                             </div>
+                            <div class="form-group">
+                                <label for="">Nama Pasien</label>
+                                <p class="form-control-plaintext">{{ !empty($diagnosa->id_pasien) ? $diagnosa->pasien->nama_pasien : $diagnosa->nama_pasien }}</p>
+                            </div>
 
-                            @if (!empty($diagnosa->id_pasien))
-                                <div class="form-group">
-                                    <label for="">Nama Pasien</label>
-                                    <p class="form-control-plaintext">{{ $diagnosa->pasien->nama_pasien }}</p>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Alamat</label>
-                                    <p class="form-control-plaintext">{{ $diagnosa->pasien->alamat }}</p>
-                                </div>
-                            @else
-                                <div class="form-group">
-                                    <label for="">Nama Pasien</label>
-                                    <p class="form-control-plaintext">{{ $diagnosa->nama_pasien }}</p>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Alamat</label>
-                                    <p class="form-control-plaintext">{{ $diagnosa->alamat }}</p>
-                                </div>
-                            @endif
-
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="">Alamat</label>
+                                <p class="form-control-plaintext">{{ !empty($diagnosa->id_pasien) ? $diagnosa->pasien->alamat : $diagnosa->alamat }}</p>
+                            </div>
                             @if ($diagnosa->user)
                                 <div class="form-group">
                                     <label for="">Dibuat Oleh</label>
                                     <p class="form-control-plaintext">{{ $diagnosa->user->name ?? 'Pasien' }}</p>
                                 </div>
                             @endif
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="">Keterangan</label>
-                                <div class="border rounded p-2" style="min-height: 100px;">
-                                    {{ $diagnosa->keterangan }}
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <label for="">Status</label>
                                 <p class="form-control-plaintext">{{ $diagnosa->status }}</p>
@@ -77,6 +59,16 @@
                             </thead>
                             <tbody>
                                 @php $i = 1; @endphp
+                                @php
+                                    $cfLabels = [
+                                        '1.0' => 'Pasti',
+                                        '0.8' => 'Hampir Pasti',
+                                        '0.6' => 'Kemungkinan Besar',
+                                        '0.4' => 'Mungkin',
+                                        '0.2' => 'Tidak Tahu',
+                                        '0.0' => 'Tidak',
+                                    ];
+                                @endphp
                                 @foreach ($diagnosa_details as $diagnosa_detail)
                                     <tr>
                                         <td class="align-top" style="width: 1%">{{ $i++ }}</td>
@@ -84,7 +76,7 @@
                                             {{ $diagnosa_detail->gejala->nama_gejala }}
                                         </td>
                                         <td class="text-nowrap align-top">
-                                            {{ $diagnosa_detail->cf_user }}
+                                            {{ $diagnosa_detail->cf_user . ' (' . $cfLabels[(string) number_format($diagnosa_detail->cf_user, 1)] . ')' ?? $diagnosa_detail->cf_user }}
                                         </td>
                                         <td class="text-nowrap align-top">
                                             {{ $diagnosa_detail->cf_expert }}
@@ -107,11 +99,11 @@
                     <div class="alert alert-secondary alert-dismissible fade show" role="alert">
                         <b>Kesimpulan</b>
                         @if ($diagnosa->penyakit)
-                            <p class="mb-0">Berdasarkan dari gejala yang dipilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit maka perhitungan Algoritma Certainty Factor mengambil nilai CF yang paling tinggi yakni
+                            <p class="mb-4">Berdasarkan dari gejala yang dipilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit maka perhitungan Algoritma Certainty Factor mengambil nilai CF yang paling tinggi yakni
                                 <b>{{ bcdiv($diagnosa->cf_result, 1, 2) }}</b> yaitu didiagnosa penyakit <b>{{ $diagnosa->penyakit->nama_penyakit }}</b>.
                             </p>
-                            <p class="mb-0">Keterangan: {{ $diagnosa->penyakit->keterangan ?? '-' }}</p>
-                            <p class="mb-0">Solusi: {{ $diagnosa->penyakit->solusi ?? '-' }}</p>
+                            <p class="mb-4"><strong>Keterangan:</strong> {!! nl2br(e($diagnosa->penyakit->keterangan)) ?? '-' !!}</p>
+                            <p class="mb-0"><strong>Solusi:</strong> {!! nl2br(e($diagnosa->penyakit->solusi)) ?? '-' !!}</p>
                         @else
                             <p class="mb-0">Hasil diagnosa belum dapat dipastikan.</p>
                         @endif
