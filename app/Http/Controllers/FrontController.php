@@ -152,7 +152,7 @@ class FrontController extends Controller
             'cf_user.*' => 'required|in:1,0.8,0.6,0.4,0.2,0',
         ], [
             'cf_user.*.required' => 'CF User harus diisi.',
-            'cf_user.*.in'       => 'CF User tidak valid.'
+            'cf_user.*.in'       => 'CF User tidak valid.',
         ]);
 
         $diagnosa = M_diagnosa::findOrFail($id_diagnosa);
@@ -160,16 +160,23 @@ class FrontController extends Controller
         $gejala_terpilih = $request->gejala;
         $cf_users        = $request->cf_user;
 
-        $cf_hasil = [];
+        $cf_hasil         = [];
+        $aturan_valid     = null;
+        $keterangan_penyakit = '-';
+
         foreach ($gejala_terpilih as $index => $id_gejala) {
             $cf_user = $cf_users[$index];
             $aturan  = M_aturan_diagnosa::where('id_gejala', $id_gejala)->first();
 
             if ($aturan) {
+                if (!$aturan_valid) {
+                    $aturan_valid = $aturan;
+                }
+
                 $cf_hasil[] = $this->hitungCF($cf_user, $aturan->cf_expert);
             }
 
-            // Menyimpan detail diagnosa baru
+            // Tetap simpan detail meskipun aturan tidak ditemukan
             $cf_expert = $this->getCFExpert($id_gejala);
             $cf_he     = $this->hitungCFHE($cf_user, $cf_expert);
 
@@ -183,9 +190,22 @@ class FrontController extends Controller
             ]);
         }
 
-        // Mengambil keterangan penyakit berdasarkan ID penyakit yang ditemukan
-        if ($aturan->id_penyakit) {
-            $penyakit            = M_penyakit::find($aturan->id_penyakit);
+        // Jika tidak ada aturan ditemukan sama sekali
+        if (empty($cf_hasil)) {
+            $diagnosa->update([
+                'id_penyakit' => null,
+                'cf_result'   => null,
+                'keterangan'  => 'Tidak ditemukan aturan yang sesuai dengan gejala yang dipilih.',
+            ]);
+
+            return redirect()
+                ->route('front_edit_diagnosa', $id_diagnosa)
+                ->with('error', 'Tidak ditemukan aturan yang sesuai dengan gejala yang dipilih.');
+        }
+
+        // Ambil data penyakit dari aturan valid
+        if ($aturan_valid && $aturan_valid->id_penyakit) {
+            $penyakit = M_penyakit::find($aturan_valid->id_penyakit);
 
             $nama_penyakit       = $penyakit->nama_penyakit ?? '-';
             $keterangan          = $penyakit->keterangan ?? '-';
@@ -193,15 +213,17 @@ class FrontController extends Controller
             $keterangan_penyakit = "Nama Penyakit: $nama_penyakit\nKeterangan: $keterangan\nSolusi: $solusi";
         }
 
-        // Menghitung CF total dan update diagnosa
+        // Hitung CF total dan update diagnosa
         $cf_total = $this->combineCF($cf_hasil);
         $diagnosa->update([
-            'id_penyakit' => $aturan->id_penyakit ?? null,
+            'id_penyakit' => $aturan_valid->id_penyakit ?? null,
             'cf_result'   => $cf_total,
             'keterangan'  => $keterangan_penyakit,
         ]);
 
-        return redirect()->route('front_edit_diagnosa', $id_diagnosa)->with('success', 'Data berhasil diperbarui.');
+        return redirect()
+            ->route('front_edit_diagnosa', $id_diagnosa)
+            ->with('success', 'Diagnosa berhasil diperbarui.');
     }
 
     public function print_diagnosa(string $id)

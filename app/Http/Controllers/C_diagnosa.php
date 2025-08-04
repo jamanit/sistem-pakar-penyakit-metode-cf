@@ -208,12 +208,20 @@ class C_diagnosa extends Controller
         $gejala_terpilih = $request->gejala;
         $cf_users        = $request->cf_user;
 
-        $cf_hasil = [];
+        $cf_hasil       = [];
+        $aturan_valid   = null;
+        $keterangan_penyakit = '-';
+
         foreach ($gejala_terpilih as $index => $id_gejala) {
             $cf_user = $cf_users[$index];
             $aturan  = M_aturan_diagnosa::where('id_gejala', $id_gejala)->first();
 
             if ($aturan) {
+                // Simpan aturan pertama yang ditemukan
+                if (!$aturan_valid) {
+                    $aturan_valid = $aturan;
+                }
+
                 $cf_hasil[] = $this->hitungCF($cf_user, $aturan->cf_expert);
             }
 
@@ -231,9 +239,21 @@ class C_diagnosa extends Controller
             ]);
         }
 
-        // Mengambil keterangan penyakit berdasarkan ID penyakit yang ditemukan
-        if ($aturan->id_penyakit) {
-            $penyakit = M_penyakit::find($aturan->id_penyakit);
+        // Jika tidak ada aturan ditemukan sama sekali
+        if (empty($cf_hasil)) {
+            $diagnosa->update([
+                'id_penyakit' => null,
+                'cf_result'   => null,
+                'keterangan'  => 'Tidak ditemukan aturan yang sesuai dengan gejala yang dipilih.',
+            ]);
+
+            return redirect()->route('diagnosa_edit', $id_diagnosa)
+                ->with('error', 'Tidak ditemukan aturan yang sesuai dengan gejala yang dipilih.');
+        }
+
+        // Ambil keterangan penyakit dari aturan pertama yang valid
+        if ($aturan_valid && $aturan_valid->id_penyakit) {
+            $penyakit = M_penyakit::find($aturan_valid->id_penyakit);
 
             $nama_penyakit       = $penyakit->nama_penyakit ?? '-';
             $keterangan          = $penyakit->keterangan ?? '-';
@@ -244,7 +264,7 @@ class C_diagnosa extends Controller
         // Menghitung CF total dan update diagnosa
         $cf_total = $this->combineCF($cf_hasil);
         $diagnosa->update([
-            'id_penyakit' => $aturan->id_penyakit ?? null,
+            'id_penyakit' => $aturan_valid->id_penyakit ?? null,
             'cf_result'   => $cf_total,
             'keterangan'  => $keterangan_penyakit,
         ]);
