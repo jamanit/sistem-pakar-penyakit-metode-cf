@@ -147,12 +147,12 @@
                                                     <td class="text-nowrap align-top">
                                                         <select name="cf_user[]" id="" class="form-control">
                                                             <option value="">- pilih -</option>
-                                                            <option value="1" {{ old('cf_user.' . $index) == '1' || $diagnosa_detail->cf_user == '1' ? 'selected' : '' }}>1 (Pasti)</option>
-                                                            <option value="0.8" {{ old('cf_user.' . $index) == '0.8' || $diagnosa_detail->cf_user == '0.8' ? 'selected' : '' }}>0.8 (Hampir Pasti)</option>
-                                                            <option value="0.6" {{ old('cf_user.' . $index) == '0.6' || $diagnosa_detail->cf_user == '0.6' ? 'selected' : '' }}>0.6 (Kemungkinan Besar)</option>
-                                                            <option value="0.4" {{ old('cf_user.' . $index) == '0.4' || $diagnosa_detail->cf_user == '0.4' ? 'selected' : '' }}>0.4 (Mungkin)</option>
-                                                            <option value="0.2" {{ old('cf_user.' . $index) == '0.2' || $diagnosa_detail->cf_user == '0.2' ? 'selected' : '' }}>0.2 (Tidak Tahu)</option>
-                                                            <option value="0" {{ old('cf_user.' . $index) == '0' || $diagnosa_detail->cf_user == '0' ? 'selected' : '' }}>0 (Tidak)</option>
+                                                            <option value="1" {{ old('cf_user.' . $index) == '1' || $diagnosa_detail->cf_user == '1' ? 'selected' : '' }}>Pasti</option>
+                                                            <option value="0.8" {{ old('cf_user.' . $index) == '0.8' || $diagnosa_detail->cf_user == '0.8' ? 'selected' : '' }}>Hampir Pasti</option>
+                                                            <option value="0.6" {{ old('cf_user.' . $index) == '0.6' || $diagnosa_detail->cf_user == '0.6' ? 'selected' : '' }}>Kemungkinan Besar</option>
+                                                            <option value="0.4" {{ old('cf_user.' . $index) == '0.4' || $diagnosa_detail->cf_user == '0.4' ? 'selected' : '' }}>Mungkin</option>
+                                                            <option value="0.2" {{ old('cf_user.' . $index) == '0.2' || $diagnosa_detail->cf_user == '0.2' ? 'selected' : '' }}>Tidak Tahu</option>
+                                                            <option value="0" {{ old('cf_user.' . $index) == '0' || $diagnosa_detail->cf_user == '0' ? 'selected' : '' }}>Tidak</option>
                                                         </select>
                                                         @error('cf_user.' . $index)
                                                             <div class="text-danger">{{ $message }}</div>

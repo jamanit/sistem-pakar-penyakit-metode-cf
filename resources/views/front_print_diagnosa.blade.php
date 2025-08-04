@@ -65,7 +65,7 @@
                                             {{ $diagnosa_detail->gejala->nama_gejala }}
                                         </td>
                                         <td class="text-nowrap align-top">
-                                            {{ $diagnosa_detail->cf_user . ' (' . $cfLabels[(string) number_format($diagnosa_detail->cf_user, 1)] . ')' ?? $diagnosa_detail->cf_user }}
+                                            {{ $cfLabels[(string) number_format($diagnosa_detail->cf_user, 1)] ?? $diagnosa_detail->cf_user }}
                                         </td>
                                         <td class="text-nowrap align-top">
                                             {{ $diagnosa_detail->cf_expert }}
