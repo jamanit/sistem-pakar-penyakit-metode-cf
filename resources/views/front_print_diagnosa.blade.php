@@ -41,7 +41,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Gejala</th>
-                                    <th>Tingkat Keyakinan</th>
+                                    <th>Tingkat Keyakinan Pasien (CF User)</th>
+                                    <th>Tingkat Kepercayaan Pakar (CF Expert)</th>
+                                    <th>Tingkat Keyakinan Sistem (CH H,E)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -63,14 +65,21 @@
                                             {{ $diagnosa_detail->gejala->nama_gejala }}
                                         </td>
                                         <td class="text-nowrap align-top">
-                                            {{ $cfLabels[(string) number_format($diagnosa_detail->cf_user, 1)] ?? $diagnosa_detail->cf_user }}
+                                            {{ $diagnosa_detail->cf_user . ' (' . $cfLabels[(string) number_format($diagnosa_detail->cf_user, 1)] . ')' ?? $diagnosa_detail->cf_user }}
+                                        </td>
+                                        <td class="text-nowrap align-top">
+                                            {{ $diagnosa_detail->cf_expert }}
+                                        </td>
+                                        <td class="text-nowrap align-top">
+                                            {{ $diagnosa_detail->cf_he }}
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th colspan="5">Nama Penyakit: {{ $diagnosa->penyakit->nama_penyakit ?? '' }}</th>
+                                    <th colspan="3">Nilai CF: {{ bcdiv($diagnosa->cf_result, 1, 2) }}</th>
+                                    <th colspan="3">Nama Penyakit: {{ $diagnosa->penyakit->nama_penyakit ?? '' }}</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -79,7 +88,9 @@
                     <div class="alert alert-secondary alert-dismissible fade show" role="alert">
                         <b>Kesimpulan</b>
                         @if ($diagnosa->penyakit)
-                            <p class="mb-4">Berdasarkan dari gejala yang dipilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit dengan perhitungan Algoritma Certainty Factor yaitu didiagnosa penyakit <b>{{ $diagnosa->penyakit->nama_penyakit ?? '-' }}</b>.</p>
+                            <p class="mb-4">Berdasarkan dari gejala yang dipilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit maka perhitungan Algoritma Certainty Factor mengambil nilai CF yang paling tinggi yakni
+                                <b>{{ bcdiv($diagnosa->cf_result, 1, 2) }}</b> yaitu didiagnosa penyakit <b>{{ $diagnosa->penyakit->nama_penyakit }}</b>.
+                            </p>
                             <p class="mb-4"><strong>Keterangan:</strong> {!! nl2br(e($diagnosa->penyakit->keterangan)) ?? '-' !!}</p>
                             <p class="mb-0"><strong>Solusi:</strong> {!! nl2br(e($diagnosa->penyakit->solusi)) ?? '-' !!}</p>
                         @else

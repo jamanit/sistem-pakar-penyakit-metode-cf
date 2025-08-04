@@ -129,7 +129,9 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Nama Gejala</th>
-                                                <th>Tingkat Keyakinan</th>
+                                                <th>Tingkat Keyakinan Pasien (CF User)</th>
+                                                <th>Tingkat Kepercayaan Pakar (CF Expert)</th>
+                                                <th>Tingkat Keyakinan Sistem (CH H,E)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -145,23 +147,30 @@
                                                     <td class="text-nowrap align-top">
                                                         <select name="cf_user[]" id="" class="form-control">
                                                             <option value="">- pilih -</option>
-                                                            <option value="1" {{ old('cf_user.' . $index) == '1' || $diagnosa_detail->cf_user == '1' ? 'selected' : '' }}>Pasti</option>
-                                                            <option value="0.8" {{ old('cf_user.' . $index) == '0.8' || $diagnosa_detail->cf_user == '0.8' ? 'selected' : '' }}>Hampir Pasti</option>
-                                                            <option value="0.6" {{ old('cf_user.' . $index) == '0.6' || $diagnosa_detail->cf_user == '0.6' ? 'selected' : '' }}>Kemungkinan Besar</option>
-                                                            <option value="0.4" {{ old('cf_user.' . $index) == '0.4' || $diagnosa_detail->cf_user == '0.4' ? 'selected' : '' }}>Mungkin</option>
-                                                            <option value="0.2" {{ old('cf_user.' . $index) == '0.2' || $diagnosa_detail->cf_user == '0.2' ? 'selected' : '' }}>Tidak Tahu</option>
-                                                            <option value="0" {{ old('cf_user.' . $index) == '0' || $diagnosa_detail->cf_user == '0' ? 'selected' : '' }}>Tidak</option>
+                                                            <option value="1" {{ old('cf_user.' . $index) == '1' || $diagnosa_detail->cf_user == '1' ? 'selected' : '' }}>1 (Pasti)</option>
+                                                            <option value="0.8" {{ old('cf_user.' . $index) == '0.8' || $diagnosa_detail->cf_user == '0.8' ? 'selected' : '' }}>0.8 (Hampir Pasti)</option>
+                                                            <option value="0.6" {{ old('cf_user.' . $index) == '0.6' || $diagnosa_detail->cf_user == '0.6' ? 'selected' : '' }}>0.6 (Kemungkinan Besar)</option>
+                                                            <option value="0.4" {{ old('cf_user.' . $index) == '0.4' || $diagnosa_detail->cf_user == '0.4' ? 'selected' : '' }}>0.4 (Mungkin)</option>
+                                                            <option value="0.2" {{ old('cf_user.' . $index) == '0.2' || $diagnosa_detail->cf_user == '0.2' ? 'selected' : '' }}>0.2 (Tidak Tahu)</option>
+                                                            <option value="0" {{ old('cf_user.' . $index) == '0' || $diagnosa_detail->cf_user == '0' ? 'selected' : '' }}>0 (Tidak)</option>
                                                         </select>
                                                         @error('cf_user.' . $index)
                                                             <div class="text-danger">{{ $message }}</div>
                                                         @enderror
+                                                    </td>
+                                                    <td class="text-nowrap align-top">
+                                                        {{ $diagnosa_detail->cf_expert }}
+                                                    </td>
+                                                    <td class="text-nowrap align-top">
+                                                        {{ $diagnosa_detail->cf_he }}
                                                     </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th colspan="5">Nama Penyakit: {{ $diagnosa->penyakit->nama_penyakit ?? '' }}</th>
+                                                <th colspan="2">Nilai CF: {{ bcdiv($diagnosa->cf_result, 1, 2) }}</th>
+                                                <th colspan="3">Nama Penyakit: {{ $diagnosa->penyakit->nama_penyakit ?? '-' }}</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -175,7 +184,9 @@
                             <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
                                 <b>Kesimpulan</b>
                                 @if ($diagnosa->penyakit)
-                                    <p class="mb-4">Berdasarkan dari gejala yang dipilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit dengan perhitungan Algoritma Certainty Factor yaitu didiagnosa penyakit <b>{{ $diagnosa->penyakit->nama_penyakit ?? '-' }}</b>.</p>
+                                    <p class="mb-4">Berdasarkan dari gejala yang dipilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit maka perhitungan Algoritma Certainty Factor mengambil nilai CF yang paling tinggi yakni
+                                        <b>{{ bcdiv($diagnosa->cf_result, 1, 2) }}</b> yaitu didiagnosa penyakit <b>{{ $diagnosa->penyakit->nama_penyakit }}</b>.
+                                    </p>
                                     <p class="mb-4"><strong>Keterangan:</strong> {!! nl2br(e($diagnosa->penyakit->keterangan)) ?? '-' !!}</p>
                                     <p class="mb-0"><strong>Solusi:</strong> {!! nl2br(e($diagnosa->penyakit->solusi)) ?? '-' !!}</p>
                                 @else

@@ -52,9 +52,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Gejala</th>
-                                    <th>CF User</th>
-                                    <th>CF Expert</th>
-                                    <th>CF (H, E)</th>
+                                    <th>Tingkat Keyakinan Pasien (CF User)</th>
+                                    <th>Tingkat Kepercayaan Pakar (CF Expert)</th>
+                                    <th>Tingkat Keyakinan Sistem (CH H,E)</th>
                                 </tr>
                             </thead>
                             <tbody>
