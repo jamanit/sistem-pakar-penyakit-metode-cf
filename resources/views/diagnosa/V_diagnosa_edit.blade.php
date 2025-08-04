@@ -186,9 +186,11 @@
 
                     </div>
 
-                    <div class="card-footer">
-                        <a href="{{ route('diagnosa_print', $diagnosa->id_diagnosa) }}" class="btn btn-secondary"target="_blank"><i class="fas fa-print"></i> Print Diagnosa</a>
-                    </div>
+                    @if ($diagnosa_details->isNotEmpty())
+                        <div class="card-footer">
+                            <a href="{{ route('diagnosa_print', $diagnosa->id_diagnosa) }}" class="btn btn-secondary"target="_blank"><i class="fas fa-print"></i> Print Diagnosa</a>
+                        </div>
+                    @endif
                 </div>
                 <!-- /.card -->
             </div>

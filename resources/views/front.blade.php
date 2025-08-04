@@ -197,8 +197,10 @@
                                 </button>
                             </div>
 
-                            <br>
-                            <a href="{{ route('front_print_diagnosa', $diagnosa->id_diagnosa) }}" class="btn btn-secondary"target="_blank"><i class="fas fa-print"></i> Print Diagnosa</a>
+                            @if ($diagnosa_details->isNotEmpty())
+                                <br>
+                                <a href="{{ route('front_print_diagnosa', $diagnosa->id_diagnosa) }}" class="btn btn-secondary"target="_blank"><i class="fas fa-print"></i> Print Diagnosa</a>
+                            @endif
                         </div>
                     </div>
                 </div>
