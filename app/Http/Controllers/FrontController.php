@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use App\Models\M_pasien;
 use App\Models\M_gejala;
 use App\Models\M_penyakit;
@@ -91,14 +92,22 @@ class FrontController extends Controller
     {
         $id_diagnosa = $request->id_diagnosa;
 
-        // Validasi input dari request
-        $request->validate([
+        // Validasi input dari request 
+        $validator = Validator::make($request->all(), [
             'gejala.*' => 'integer|distinct',   // Pastikan setiap id gejala adalah integer dan unik
         ], [
             'gejala.array'      => 'Gejala harus berupa array.',
             'gejala.*.integer'  => 'ID gejala harus berupa integer.',
             'gejala.*.distinct' => 'Gejala tidak boleh duplikat.',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->to(route('front_edit_diagnosa', $id_diagnosa) . '#form-gejala')
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', 'Silakan periksa kembali input gejala Anda.');;
+        }
 
         $gejala_terpilih = $request->gejala;
 
@@ -122,7 +131,7 @@ class FrontController extends Controller
                 'id_penyakit' => null,
                 'cf_result'   => null,
             ]);
-            return redirect()->route('front_edit_diagnosa', $id_diagnosa)->with('error', 'Gejala harus dipilih.');
+            return redirect()->to(route('front_edit_diagnosa', $id_diagnosa) . '#form-gejala')->with('error', 'Gejala harus dipilih.');
         } else {
             foreach ($gejala_terpilih as $id_gejala) {
                 // Periksa apakah gejala sudah ada di detail diagnosa
@@ -140,7 +149,7 @@ class FrontController extends Controller
             }
         }
 
-        return redirect()->route('front_edit_diagnosa', $id_diagnosa)->with('success', 'Data berhasil ditambah.');
+        return redirect()->to(route('front_edit_diagnosa', $id_diagnosa) . '#form-diagnosa')->with('success', 'Data gejala berhasil ditambah.');
     }
 
     public function start_diagnosa_detail(Request $request)
@@ -148,12 +157,20 @@ class FrontController extends Controller
         $id_diagnosa = $request->id_diagnosa;
 
         // Validasi input dari request
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'cf_user.*' => 'required|in:1,0.8,0.6,0.4,0.2,0',
         ], [
             'cf_user.*.required' => 'CF User harus diisi.',
             'cf_user.*.in'       => 'CF User tidak valid.',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->to(route('front_edit_diagnosa', $id_diagnosa) . '#form-diagnosa')
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', 'Silakan periksa kembali input tingkat keyakinan pasien (CF User) Anda.');
+        }
 
         $diagnosa = M_diagnosa::findOrFail($id_diagnosa);
 
@@ -198,9 +215,7 @@ class FrontController extends Controller
                 'keterangan'  => 'Tidak ditemukan aturan yang sesuai dengan gejala yang dipilih.',
             ]);
 
-            return redirect()
-                ->route('front_edit_diagnosa', $id_diagnosa)
-                ->with('error', 'Tidak ditemukan aturan yang sesuai dengan gejala yang dipilih.');
+            return redirect()->to(route('front_edit_diagnosa', $id_diagnosa) . '#form-diagnosa')->with('error', 'Tidak ditemukan aturan yang sesuai dengan gejala yang dipilih.');
         }
 
         // Ambil data penyakit dari aturan valid
@@ -221,9 +236,7 @@ class FrontController extends Controller
             'keterangan'  => $keterangan_penyakit,
         ]);
 
-        return redirect()
-            ->route('front_edit_diagnosa', $id_diagnosa)
-            ->with('success', 'Diagnosa berhasil diperbarui.');
+        return redirect()->to(route('front_edit_diagnosa', $id_diagnosa) . '#hasil-diagnosa')->with('success', 'Diagnosa berhasil.');
     }
 
     public function print_diagnosa(string $id)
